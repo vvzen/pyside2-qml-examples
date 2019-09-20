@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>AssetListDelegate.qml</file>
+        <file>AssetModel.qml</file>
+        <file>ComponentModel.qml</file>
+        <file>FBFButton.qml</file>
+        <file>FBFCheckBox.qml</file>
+        <file>TopHeader.qml</file>
+    </qresource>
+</RCC>
