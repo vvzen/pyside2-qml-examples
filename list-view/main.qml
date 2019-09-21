@@ -41,11 +41,11 @@ ApplicationWindow {
         width: 100
         height: 100
 
-        model: provider.model
+        model: backend.model
         delegate: RowLayout {
 
             CheckBox {
-                checked: true
+                checked: assetIsChecked
                 text: assetName
             }
 
@@ -76,8 +76,9 @@ ApplicationWindow {
             console.log('clicked')
             var itemNum = listView.model.rowCount();
             console.log('num of items: ' + itemNum);
+            var isChecked = Math.round(Math.random());
 
-            listView.model.appendRow(`item_${itemNum}`)
+            listView.model.appendRow(`item_${itemNum}`, isChecked)
         }
     }
 }

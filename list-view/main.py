@@ -9,14 +9,13 @@ from PySide2 import QtQml as qml
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
-class AssetModel(qtc.QAbstractListModel):
+class MyListModel(qtc.QAbstractListModel):
+    # Our custom roles
     NameRole = qtc.Qt.UserRole + 1000
     CheckedRole = qtc.Qt.UserRole + 1001
 
-    # TypeRole = qtc.Qt.UserRole + 1001
-
     def __init__(self, parent=None):
-        super(AssetModel, self).__init__(parent)
+        super(MyListModel, self).__init__(parent)
         self._assets = []
 
     def rowCount(self, parent=qtc.QModelIndex()):
@@ -29,23 +28,24 @@ class AssetModel(qtc.QAbstractListModel):
         if 0 <= index.row() < self.rowCount() and index.isValid():
             item = self._assets[index.row()]
 
-            if role == AssetModel.NameRole:
+            if role == MyListModel.NameRole:
                 return item['assetName']
 
-            # elif role == AssetModel.CheckedRole:
-            #     return item['assetIsChecked']
+            elif role == MyListModel.CheckedRole:
+                return item['assetIsChecked']
 
     def roleNames(self):
         roles = dict()
-        roles[AssetModel.NameRole] = b'assetName'
-        roles[AssetModel.CheckedRole] = b'assetIsChecked'
+        roles[MyListModel.NameRole] = b'assetName'
+        roles[MyListModel.CheckedRole] = b'assetIsChecked'
         return roles
 
-    @qtc.Slot(str)
-    def appendRow(self, name):
+    # This can be called from the QML side
+    @qtc.Slot(str, bool)
+    def appendRow(self, name, ischecked):
         self.beginInsertRows(qtc.QModelIndex(), self.rowCount(),
                              self.rowCount())
-        self._assets.append({'assetName': name})
+        self._assets.append({'assetName': name, 'assetIsChecked': ischecked})
         self.endInsertRows()
 
 
@@ -55,34 +55,33 @@ class Backend(qtc.QObject):
 
     def __init__(self, parent=None):
         super(Backend, self).__init__(parent)
-        self._model = AssetModel()
+        self._model = MyListModel()
 
+    # Expose model as a property of our backend
     @qtc.Property(qtc.QObject, constant=False, notify=modelChanged)
     def model(self):
         return self._model
 
 
-def test(model):
-    # n = "name{}".format(model.rowCount())
-    # t = "type{}".format(model.rowCount())
-    model.appendRow('env_building_010')
+def test_add_item(model):
+    model.appendRow('test_item', True)
 
 
 def main():
     app = qtg.QGuiApplication(sys.argv)
 
-    backend = Backend()
     engine = qml.QQmlApplicationEngine()
-    engine.rootContext().setContextProperty("provider", backend)
+
+    # Bind the backend object in qml
+    backend = Backend()
+    engine.rootContext().setContextProperty('backend', backend)
 
     engine.load(qtc.QUrl.fromLocalFile(os.path.join(CURRENT_DIR, 'main.qml')))
 
+    test_add_item(backend.model)
+
     if not engine.rootObjects():
         return -1
-
-    # timer = qtc.QTimer(interval=500)
-    # timer.timeout.connect(partial(test, backend.model))
-    # timer.start()
 
     return app.exec_()
 
