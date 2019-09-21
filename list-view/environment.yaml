@@ -1,0 +1,54 @@
+name: pipeline-gui
+channels:
+  - defaults
+dependencies:
+  - ca-certificates=2019.1.23=0
+  - certifi=2018.11.29=py27_0
+  - libcxx=4.0.1=hcfea43d_1
+  - libcxxabi=4.0.1=hcfea43d_1
+  - libedit=3.1.20170329=hb402a30_2
+  - libffi=3.2.1=h475c297_4
+  - ncurses=6.1=h0a44026_1
+  - openssl=1.1.1a=h1de35cc_0
+  - pip=18.1=py27_0
+  - python=2.7.15=h8f8e585_6
+  - readline=7.0=h1de35cc_5
+  - rope=0.11.0=py27_0
+  - setuptools=40.6.3=py27_0
+  - sqlite=3.26.0=ha441bb4_0
+  - tk=8.6.8=ha441bb4_0
+  - wheel=0.32.3=py27_0
+  - zlib=1.2.11=h1de35cc_3
+  - pip:
+    - altgraph==0.16.1
+    - arrow==0.12.1
+    - atomicwrites==1.3.0
+    - attrs==18.2.0
+    - backports-functools-lru-cache==1.5
+    - chardet==3.0.4
+    - clique==1.5.0
+    - dis3==0.1.3
+    - ftrack-python-api==1.7.1
+    - funcsigs==1.0.2
+    - future==0.17.1
+    - idna==2.8
+    - macholib==1.11
+    - more-itertools==5.0.0
+    - pathlib2==2.3.3
+    - pefile==2019.4.18
+    - pluggy==0.8.1
+    - py==1.7.0
+    - pyinstaller==3.4
+    - pyparsing==2.3.0
+    - pyside2==5.12.0
+    - pytest==4.2.0
+    - python-dateutil==2.7.5
+    - requests==2.21.0
+    - scandir==1.9.0
+    - shiboken2==5.12.0
+    - six==1.12.0
+    - termcolor==1.1.0
+    - urllib3==1.24.1
+    - websocket-client==0.54.0
+prefix: /Users/vvzen/miniconda3/envs/pipeline-gui
+
