@@ -1,9 +1,14 @@
 # Nested List View
 This example is quite complete in the sense that shows how to send data back and forth between QML and python.
 
-The QML frontend will request data to the backend, which will then retrieve it using a long threaded function.
-In this way the QML UI will not be blocked.
-After the thread has run successfully, a signal will be emitted by the thread and then the backend object will emit a signal on containing all of the data.
-I believe this example is a good one since you don't need to subclass any QAbstractListModel at all.
-You're basically just sending JSON stuff between QML and python, which in my opinion is just super cool and very fast.
+The QML frontend will request data to the backend, which will then retrieve it using a thread.
+This guarantees that the QML UI will not freeze (since you're not blocking its UI thread).
+
+After the thread on the backend has completed successfully, it will emit a signal and then the backend object will emit a signal himself containing all of the retrieved data.
+
+I think this example is a good one since you don't need to subclass any QAbstractListModel or other models at all.
+
+You're basically just sending JSON stuff between QML and python, which in my opinion is just super cool and very effective.
 In this way you can easily construct a nested list without writing too much code.
+
+For more simple scenarios, I would still refer to the list-view example, which exposes the model as a property of the backend and listens to its changes.
