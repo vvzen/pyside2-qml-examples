@@ -1,7 +1,7 @@
 # Nested List View
-This example is quite complete in the sense that shows how to send data back and forth between QML and python.
+This example shows how to send a nested data structure (list of lists) from Python to QML.
 
-The QML frontend will request data to the backend, which will then retrieve it using a thread.
+When the button is pressed, the QML frontend will request data to the backend, which will then retrieve it using a thread.
 This guarantees that the QML UI will not freeze (since you're not blocking its UI thread).
 
 After the thread on the backend has completed successfully, it will emit a signal and then the backend object will emit a signal himself containing all of the retrieved data.
