@@ -10,23 +10,23 @@ ApplicationWindow {
     height: 480
     title: '2D List View'
 
-    signal addItems(var items)
+    signal reDataRetrieved(var data)
 
-    onAddItems: {
-        console.log('appending received items')
-        for (var i = 0; i < items.length; i++){
-            var item = items[i];
-            listViewModel.append(item)
-        }
+    // Signal argument names are not propagated from Python to QML,
+    // so we need to re-emit the signal
+    Component.onCompleted: {
+        backend.dataRetrieved.connect(reDataRetrieved)
     }
 
-    DropArea {
-        id: dropArea
-        width: root.width
-        height: root.height
-
-        onDropped: {
-            console.log('dropped files')
+    onReDataRetrieved: {
+        console.log('onReDataRetrieved on the QML Side')
+        console.log(data)
+        console.log('data items:')
+        // Lets append each received item to the listView
+        for (var i = 0; i < data.length; i++){
+            var item = data[i];
+            console.log(item)
+            listViewModel.append(item)
         }
     }
 
@@ -118,31 +118,11 @@ ApplicationWindow {
 
         onClicked: {
             console.log('clicked')
+            console.log('calling get_data() slot from QML')
 
-            var itemNum = listView.model.rowCount();
-            var someId = Math.floor(Math.random() * (12 - 2 + 1) + 2);
-            var myitem = {
-                'itemName': `item_${itemNum}`,
-                'itemIsChecked': false,
-                'itemModel': [
-                    {'passName': `someid_${someId}`, 'path': '/mnt/projects/aaa'},
-                    {'passName': 'position', 'path': '/mnt/projects/bbb'}
-                ]
-            }
-
-            root.addItems([myitem])
-
-
-            // console.log('num of items: ' + itemNum);
-            // var isChecked = Math.round(Math.random());
-            // var aList = [];
-            // aList.push({
-            //     passName: 'crypto'
-            // })
-
-            // console.log(aList);
-
-            // listView.model.appendRow(`item_${itemNum}`, isChecked, aList)
+            // Here we call a slot on the python side
+            // that will spawn a thread and take a loooong time
+            backend.retrieve_data()
         }
     }
 }
