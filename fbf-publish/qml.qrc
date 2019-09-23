@@ -6,6 +6,5 @@
         <file>ComponentModel.qml</file>
         <file>FBFButton.qml</file>
         <file>FBFCheckBox.qml</file>
-        <file>TopHeader.qml</file>
     </qresource>
 </RCC>

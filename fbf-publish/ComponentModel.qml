@@ -3,6 +3,9 @@ import QtQuick.Window 2.2
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.4
 
+// This is not used
+// but served as a mockup before writing any backend stuff
+
 ListModel {
 
     ListElement {

@@ -1,0 +1,6 @@
+qml.qrc
+*.pro
+*.pro.user
+*.qmlc
+*.vscode
+*.pyc

@@ -1,5 +1,8 @@
 import QtQuick 2.0
 
+// This is no more used
+// but served as a mockup before actaully writing any backend code
+
 
 ListModel {
 
