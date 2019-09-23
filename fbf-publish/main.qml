@@ -16,15 +16,26 @@ ApplicationWindow {
     minimumHeight: 430
     maximumHeight: 800
 
-    title: qsTr('FBF Publish')
+    title: 'FBF Publish'
 
     property int marginSize: 16
-    signal droppedFiles(var files)
+    signal reDataRetrieved(var assetsData)
 
-    onDroppedFiles: {
-        console.log('on dropped files called')
-        for (var i = 0; i < files.length; i++){
-            console.log(files[i]);
+    Component.onCompleted: {
+        backend.dataRetrieved.connect(reDataRetrieved)
+    }
+
+    onReDataRetrieved: {
+        console.log('onReDataRetrieved')
+        console.log(assetsData)
+        for (var i = 0; i < assetsData.length; i++){
+            var asset = assetsData[i];
+            console.log(asset)
+            console.log(asset.assetName)
+            console.log(asset.assetComponents)
+            if (asset.assetComponents.length > 0){
+                assetModel.append(asset)
+            }
         }
     }
 
@@ -35,9 +46,8 @@ ApplicationWindow {
         onDropped: {
             console.log('user has dropped something!')
             if (drop.hasUrls){
-                // Emit the custom signal
-                root.droppedFiles(drop.urls)
-                assetsListView.visible = true
+                // Call a slot on the backend
+                backend.parseDraggedFiles(drop.urls)
             }
         }
     }
@@ -86,16 +96,19 @@ ApplicationWindow {
         ListView {
 
             id: assetsListView
-            visible: false
+            visible: true
             focus: true
             anchors.top: header.bottom
             anchors.bottom: finalRowLayout.top
+            anchors.bottomMargin: marginSize / 2
             clip: true
             width: parent.width
             height: 300
 
 
-            model: AssetModel {}
+            model: ListModel {
+                id: assetModel
+            }
             delegate: ColumnLayout {
 
                 width: root.width
@@ -115,7 +128,7 @@ ApplicationWindow {
                     }
 
                     Label {
-                        text: name
+                        text: assetName
                         font.pointSize: 14
                         font.bold: true
                     }
