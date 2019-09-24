@@ -14,6 +14,4 @@ Button {
         color: publishButton.down ? "#9ED624" : "#ABE827"
         radius: 4
     }
-
-    onClicked: console.log('Publishing..')
 }
