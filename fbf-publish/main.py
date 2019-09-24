@@ -61,6 +61,7 @@ class Backend(qtc.QObject):
                 if current_asset not in render_layers and current_asset is not None:
                     render_layers[current_asset] = {}
                     render_layers[current_asset]['assetName'] = current_asset
+                    render_layers[current_asset]['assetIsChecked'] = True
                     render_layers[current_asset]['assetComponents'] = []
 
                 frames = sorted(
@@ -84,6 +85,8 @@ class Backend(qtc.QObject):
                         end_frame,
                         'path':
                         os.path.dirname(os.path.join(root, frames[0])),
+                        'passIsChecked':
+                        True
                     })
 
         # pp.pprint(render_layers)
@@ -92,18 +95,7 @@ class Backend(qtc.QObject):
         for asset_name, asset_dict in render_layers.iteritems():
             returned_layers.append(asset_dict)
 
-        pp.pprint(returned_layers)
-
-        data_retrieved = [{
-            'assetName':
-            'asset_010',
-            'assetComponents': [{
-                'passName': 'crypto',
-                'path': '/mnt/projects',
-                'startFrame': 1001,
-                'endFrame': 1201
-            }]
-        }]
+        # pp.pprint(returned_layers)
 
         self.dataRetrieved.emit(
             sorted(returned_layers, key=lambda e: e['assetName']))

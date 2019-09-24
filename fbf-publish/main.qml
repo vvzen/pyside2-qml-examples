@@ -28,11 +28,14 @@ ApplicationWindow {
     onReDataRetrieved: {
         console.log('onReDataRetrieved')
         console.log(assetsData)
-        for (var i = 0; i < assetsData.length; i++){
-            var asset = assetsData[i];
-            console.log(asset)
-            console.log(asset.assetName)
-            console.log(asset.assetComponents)
+
+        // Populate the model with the retrieved data
+        assetModel.clear()
+        for (let i = 0; i < assetsData.length; i++){
+            let asset = assetsData[i];
+            // console.log(asset)
+            // console.log(asset.assetName)
+            // console.log(asset.assetComponents)
             if (asset.assetComponents.length > 0){
                 assetModel.append(asset)
             }
@@ -123,8 +126,12 @@ ApplicationWindow {
 
                     CheckBox {
                         id: assetCheckBox
-                        checked: true
+                        checked: assetIsChecked
                         checkState: passesButtonGroup.checkState
+                        onClicked: {
+                            console.log('checked group: ' + checked)
+                            assetIsChecked = checked
+                        }
                     }
 
                     Label {
@@ -142,9 +149,12 @@ ApplicationWindow {
                             width: marginSize
                         }
 
-                        FBFCheckBox {
-                            checked: true
+                        SmallCheckBox {
+                            checked: passIsChecked
                             ButtonGroup.group: passesButtonGroup
+                            onClicked: {
+                                passIsChecked = checked
+                            }
                         }
 
                         Label {
@@ -192,7 +202,29 @@ ApplicationWindow {
             anchors.rightMargin: 16
 
             FBFButton {
+                id: publishButton
                 text: 'Publish'
+                onClicked: {
+                    console.log('Publishing..')
+                    console.log('1 - retrieving items')
+
+                    for (let i = 0; i < assetModel.count; i++){
+                        let assetName = assetModel.get(i).assetName;
+                        let assetIsChecked = assetModel.get(i).assetIsChecked;
+
+                        console.log(assetName + ' ' + assetModel.get(i).assetIsChecked);
+                        if (!assetIsChecked){
+                            console.log('asset is not checked, skipping..');
+                            continue;
+                        }
+
+                        let assetComponents = assetModel.get(i).assetComponents;
+                        for (let j = 0; j < assetComponents.count; j++){
+                            let passComponent = assetComponents.get(j);
+                            console.log(`\t ${passComponent.passName} ${passComponent.passIsChecked} ${passComponent.path}`);
+                        }
+                    }
+                }
             }
         }
     }
