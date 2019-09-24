@@ -33,9 +33,6 @@ ApplicationWindow {
         assetModel.clear()
         for (let i = 0; i < assetsData.length; i++){
             let asset = assetsData[i];
-            // console.log(asset)
-            // console.log(asset.assetName)
-            // console.log(asset.assetComponents)
             if (asset.assetComponents.length > 0){
                 assetModel.append(asset)
             }
@@ -206,24 +203,45 @@ ApplicationWindow {
                 text: 'Publish'
                 onClicked: {
                     console.log('Publishing..')
-                    console.log('1 - retrieving items')
+
+                    // We create a JSON list of only the items
+                    // that have been checkend and we pass back to python
+                    // by calling a slot on the backend
+                    let publishData = [];
 
                     for (let i = 0; i < assetModel.count; i++){
                         let assetName = assetModel.get(i).assetName;
                         let assetIsChecked = assetModel.get(i).assetIsChecked;
 
-                        console.log(assetName + ' ' + assetModel.get(i).assetIsChecked);
+                        console.log(`current asset: ${assetName}`);
                         if (!assetIsChecked){
                             console.log('asset is not checked, skipping..');
                             continue;
                         }
 
+                        let assetData = {
+                            assetName: assetName
+                        };
                         let assetComponents = assetModel.get(i).assetComponents;
+
                         for (let j = 0; j < assetComponents.count; j++){
                             let passComponent = assetComponents.get(j);
                             console.log(`\t ${passComponent.passName} ${passComponent.passIsChecked} ${passComponent.path}`);
+
+                            if (!passComponent.passIsChecked){
+                                console.log('pass component is not checked, skipping..');
+                                continue;
+                            }
+
+                            assetData[passComponent.passName] = {
+                                path: passComponent.path
+                            }
                         }
+
+                        publishData.push(assetData)
                     }
+
+                    backend.publish(publishData)
                 }
             }
         }

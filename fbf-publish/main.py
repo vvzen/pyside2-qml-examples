@@ -20,6 +20,7 @@ class ParseDraggedDirSignals(qtc.QObject):
     completed = qtc.Signal()
 
 
+# TODO:
 class ParseDraggedDirThread(qtc.QRunnable):
 
     def __init__(self):
@@ -36,9 +37,14 @@ class Backend(qtc.QObject):
     def __init__(self):
         super(Backend, self).__init__()
 
+    @qtc.Slot('QVariantList')
+    def publish(self, assetsdata):
+        print 'publish()'
+        pp.pprint(assetsdata)
+
     @qtc.Slot('QVariant')
     def parseDraggedFiles(self, urllist):
-        print 'parseDraggedFiles'
+        print 'parseDraggedFile()'
         print urllist
 
         render_layers = {}
