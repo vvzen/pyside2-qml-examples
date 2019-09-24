@@ -9,7 +9,7 @@ ApplicationWindow {
     visible: true
 
     width: 900
-    minimumWidth: 800
+    minimumWidth: 700
     //maximumWidth: assetsColumnLayout.implicitWidth
 
     //height: 300
@@ -17,6 +17,7 @@ ApplicationWindow {
     maximumHeight: 800
 
     title: 'FBF Publish'
+    property string appVersion: 'v1.0.0'
 
     property int marginSize: 16
     signal reDataRetrieved(var assetsData)
@@ -80,11 +81,12 @@ ApplicationWindow {
                 anchors.left: header.left
                 anchors.top: textFbfPublishText.bottom
                 anchors.leftMargin: 16
-                text: 'v1.0.0'
+                text: appVersion
                 font.pointSize: 14
             }
 
             ComboBox {
+                id: deptComboBox
                 anchors.top: header.top
                 anchors.right: header.right
                 anchors.rightMargin: 16
@@ -240,8 +242,8 @@ ApplicationWindow {
 
                         publishData.push(assetData)
                     }
-
-                    backend.publish(publishData)
+                    let currentDept = deptComboBox.currentText;
+                    backend.publish(currentDept, publishData)
                 }
             }
         }

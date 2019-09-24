@@ -37,9 +37,12 @@ class Backend(qtc.QObject):
     def __init__(self):
         super(Backend, self).__init__()
 
-    @qtc.Slot('QVariantList')
-    def publish(self, assetsdata):
+    @qtc.Slot(str, 'QVariantList')
+    def publish(self, dept, assetsdata):
         print 'publish()'
+        print 'dept:'
+        print dept
+        print 'data:'
         pp.pprint(assetsdata)
 
     @qtc.Slot('QVariant')
