@@ -33,7 +33,7 @@ def fit_range(x, inmin, inmax, outmin, outmax):
 
 
 class PublishComponentsSignals(qtc.QObject):
-    completed = qtc.Signal()
+    completed = qtc.Signal(list)
     error = qtc.Signal(str)
     progress = qtc.Signal(float)
 
@@ -46,17 +46,22 @@ class PublishComponentsThread(qtc.QRunnable):
         self.assets_data = assetsdata
 
     def run(self):
+        published_assets = []
         for i, asset in enumerate(self.assets_data):
             progress = fit_range(i, 0, len(self.assets_data) - 1, 0.05, 1.0)
             print 'progress: {}'.format(progress)
-            self.signals.progress.emit(progress)
             time.sleep(1)
+            published_assets.append(asset['assetName'])
+            self.signals.progress.emit(progress)
+
+        self.signals.completed.emit(published_assets)
 
 
 class Backend(qtc.QObject):
 
     dataRetrieved = qtc.Signal('QVariantList')
     publishProgress = qtc.Signal(float)
+    publishCompleted = qtc.Signal('QVariantList')
 
     def __init__(self):
         super(Backend, self).__init__()
@@ -83,8 +88,8 @@ class Backend(qtc.QObject):
     def on_publish_progress(self, value):
         self.publishProgress.emit(value)
 
-    def on_publish_completed(self):
-        pass
+    def on_publish_completed(self, assets):
+        self.publishCompleted.emit(assets)
 
     @qtc.Slot('QVariant')
     def parseDraggedFiles(self, urllist):

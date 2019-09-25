@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtQuick.Window 2.0
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
+import QtQuick.Dialogs 1.2
 
 ApplicationWindow {
 
@@ -22,21 +23,26 @@ ApplicationWindow {
 
     signal reDataRetrieved(var assetsData)
     signal rePublishProgress(var progress)
+    signal publishCompleted(var assetsList)
 
     Component.onCompleted: {
         backend.dataRetrieved.connect(reDataRetrieved)
         backend.publishProgress.connect(rePublishProgress)
+        backend.publishCompleted.connect(publishCompleted)
     }
 
     onRePublishProgress: {
         console.log(`progress: ${progress}`)
         assetModel.remove(0)
         publishProgressBar.value = progress;
+    }
 
-        if (progress === 1.0){
-            publishProgressBar.value = 0.0;
-            publishProgressBar.visible = false;
-        }
+    onPublishCompleted: {
+        console.log('publish completed!')
+        publishProgressBar.value = 0.0;
+        publishProgressBar.visible = false;
+        publishDialog.text = `Asset pubblicati: ${assetsList.join(', ')}`
+        publishDialog.open()
     }
 
     onReDataRetrieved: {
@@ -53,7 +59,15 @@ ApplicationWindow {
         }
     }
 
-
+    MessageDialog {
+        id: publishDialog
+        visible: false
+        icon: StandardIcon.Information
+        title: 'Pubblicazione completata'
+        text: 'File e componenti pubblicati con successo: '
+        modality: Qt.WindowMaximized
+        onAccepted: {}
+    }
 
     DropArea {
         width: root.width
@@ -264,12 +278,17 @@ ApplicationWindow {
                 id: publishButton
                 text: 'Publish'
                 onClicked: {
-                    console.log('Publishing..')
 
                     // We create a JSON list of only the items
                     // that have been checkend and we pass back to python
                     // by calling a slot on the backend
                     let publishData = [];
+
+                    if (assetModel.count === 0){
+                        console.log('Nothing to publish..')
+                        return
+                    }
+                    console.log('Publishing..')
 
                     for (let i = 0; i < assetModel.count; i++){
                         let assetName = assetModel.get(i).assetName;
