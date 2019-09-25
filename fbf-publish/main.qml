@@ -18,12 +18,25 @@ ApplicationWindow {
 
     title: 'FBF Publish'
     property string appVersion: 'v1.0.0'
-
     property int marginSize: 16
+
     signal reDataRetrieved(var assetsData)
+    signal rePublishProgress(var progress)
 
     Component.onCompleted: {
         backend.dataRetrieved.connect(reDataRetrieved)
+        backend.publishProgress.connect(rePublishProgress)
+    }
+
+    onRePublishProgress: {
+        console.log(`progress: ${progress}`)
+        assetModel.remove(0)
+        publishProgressBar.value = progress;
+
+        if (progress === 1.0){
+            publishProgressBar.value = 0.0;
+            publishProgressBar.visible = false;
+        }
     }
 
     onReDataRetrieved: {
@@ -40,6 +53,8 @@ ApplicationWindow {
         }
     }
 
+
+
     DropArea {
         width: root.width
         height: root.height
@@ -50,6 +65,8 @@ ApplicationWindow {
                 // Call a slot on the backend
                 backend.parseDraggedFiles(drop.urls)
             }
+            publishProgressBar.visible = false;
+            publishProgressBar.value = 0.0;
         }
     }
 
@@ -198,7 +215,50 @@ ApplicationWindow {
             anchors.bottom: mainLayout.bottom
             anchors.bottomMargin: marginSize / 2
             anchors.right: mainLayout.right
-            anchors.rightMargin: 16
+            anchors.rightMargin: 8
+            anchors.left: mainLayout.left
+
+            Item {
+                width: marginSize
+            }
+
+            ProgressBar {
+                id: publishProgressBar
+                visible: false
+                Layout.alignment: Qt.AlignLeft
+                Layout.fillWidth: true
+                value: 0.0
+
+                background: Rectangle {
+                    implicitWidth: 200
+                    implicitHeight: 6
+                    color: "#e6e6e6"
+                    radius: 3
+                }
+
+                contentItem: Item {
+                    implicitWidth: 200
+                    implicitHeight: 4
+
+                    Rectangle {
+                        width: publishProgressBar.value * parent.width
+                        height: parent.height
+                        radius: 2
+                        color: "#17a81a"
+                    }
+                }
+            }
+
+            Item {
+                id: fillerItem
+                visible: true
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignLeft
+            }
+
+            Item {
+                width: marginSize
+            }
 
             FBFButton {
                 id: publishButton
@@ -244,6 +304,9 @@ ApplicationWindow {
                     }
                     let currentDept = deptComboBox.currentText;
                     backend.publish(currentDept, publishData)
+
+                    publishProgressBar.visible = true;
+                    // fillerItem.visible = false
                 }
             }
         }

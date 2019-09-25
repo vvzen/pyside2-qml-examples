@@ -3,6 +3,7 @@ import sys
 import os
 import re
 import pprint
+import time
 
 from PySide2 import QtCore as qtc
 from PySide2 import QtGui as qtg
@@ -16,23 +17,46 @@ ACCEPTED_EXTENSIONS_REGEX = re.compile(r'(\w+)\.(\w+)\.(exr|tiff|png|dpx)')
 RENDER_LAYER_REGEX = re.compile(r'\w+_\w+_\d{3}')
 
 
-class ParseDraggedDirSignals(qtc.QObject):
+def fit_range(x, inmin, inmax, outmin, outmax):
+    """Maps a value from an interval to another
+
+    Args:
+        x (int or float): the input value
+        inmin (int or float): The minimum of the input range
+        inmax (int or float): The maximum of the input range
+        outmin (int or float): The minimum of the desired range
+        outmax (int or float): The maximum of the desired range
+    Returns:
+        int or float: the computed value
+    """
+    return (x - inmin) * (outmax - outmin) / (inmax - inmin) + outmin
+
+
+class PublishComponentsSignals(qtc.QObject):
     completed = qtc.Signal()
+    error = qtc.Signal(str)
+    progress = qtc.Signal(float)
 
 
-# TODO:
-class ParseDraggedDirThread(qtc.QRunnable):
+class PublishComponentsThread(qtc.QRunnable):
 
-    def __init__(self):
-        super(ParseDraggedDirThread, self).__init__()
+    def __init__(self, assetsdata):
+        super(PublishComponentsThread, self).__init__()
+        self.signals = PublishComponentsSignals()
+        self.assets_data = assetsdata
 
     def run(self):
-        pass
+        for i, asset in enumerate(self.assets_data):
+            progress = fit_range(i, 0, len(self.assets_data) - 1, 0.05, 1.0)
+            print 'progress: {}'.format(progress)
+            self.signals.progress.emit(progress)
+            time.sleep(1)
 
 
 class Backend(qtc.QObject):
 
     dataRetrieved = qtc.Signal('QVariantList')
+    publishProgress = qtc.Signal(float)
 
     def __init__(self):
         super(Backend, self).__init__()
@@ -44,6 +68,23 @@ class Backend(qtc.QObject):
         print dept
         print 'data:'
         pp.pprint(assetsdata)
+
+        print fit_range(5.0, 0.0, 10.0, 0.0, 1.0)
+        print fit_range(1.0, 0.0, 10.0, 0.0, 1.0)
+        print fit_range(9.0, 0.0, 10.0, 0.0, 1.0)
+        print fit_range(100.0, 0.0, 100.0, 0.0, 1.0)
+        print fit_range(33.0, 0.0, 50.0, 0.0, 1.0)
+
+        publish_thread = PublishComponentsThread(assetsdata)
+        publish_thread.signals.completed.connect(self.on_publish_completed)
+        publish_thread.signals.progress.connect(self.on_publish_progress)
+        qtc.QThreadPool.globalInstance().start(publish_thread)
+
+    def on_publish_progress(self, value):
+        self.publishProgress.emit(value)
+
+    def on_publish_completed(self):
+        pass
 
     @qtc.Slot('QVariant')
     def parseDraggedFiles(self, urllist):
