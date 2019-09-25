@@ -63,8 +63,7 @@ ApplicationWindow {
         id: publishDialog
         visible: false
         icon: StandardIcon.Information
-        title: 'Pubblicazione completata'
-        text: 'File e componenti pubblicati con successo: '
+        title: 'Pubblicazione completata!'
         modality: Qt.WindowMaximized
         onAccepted: {}
     }
