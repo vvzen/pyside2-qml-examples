@@ -9,41 +9,42 @@ In my humble opinion, they aren't getting the big picture.
 ### Addenda
 #### Why I think QML can be good idea..
 
-1. I don't like looking at your 1000 lines of autogerated UI code just to get a feeling of the underneath data model
+- I don't like looking at your 1000 lines of autogerated UI code just to get a feeling of the underneath data model
 
-2. It makes it easier to make edits on the presentation layer without touching the python code
+- It makes it easier to make edits on the presentation layer without touching the python code
 
-3. We can create components that define a certain behaviour and reuse them (buttons but even lists, menu bars, etc..)
+- We can create components that define a certain behaviour and reuse them (buttons but even lists, menu bars, etc..)
 
-4. Yes, It's still a little bit of a PITA to use QML inside Nuke/Maya/Houdini, but things are slowly changing.
+- Yes, It's still a little bit of a PITA to use QML inside Nuke/Maya/Houdini, but things are slowly changing.
 In the meantime, nothing prevents you from doing standalone apps in QML, as long as you've got ways to properly package/source PySide2 (rez, conda, pip, tcl-modules, etc..)
 
-5. If you're crazy enough and you realize in the mid of a project that you need more performance, you could potentially rewrite the backend in C++ and leave the frontend almost untouched.
+- If you're crazy enough and you realize in the mid of a project that you need more performance, you could potentially rewrite the backend in C++ and leave the frontend almost untouched
 
-6. It finally offers TreeViews and TreeModels!
+- It finally offers TreeViews and TreeModels!
 
 #### ..and why it's still challenging
 
-1. You need to learn something new (pros for some, con for others)
+- You need to learn something new (pros for some, con for others)
 
-2. There's not really a lot of huge amount of docs for Python
+- There's not really a lot of huge amount of docs for Python (but if you're here we can change that!)
 
-3. You might find it harder to tweak some of the UI elements exactly as you'd like to
+- You might find it harder to tweak some of the UI elements exactly as you'd like to
 
-4. It's still not a mature framework (but he's a bright kid)
+- It's still not a mature framework (but he's a bright kid)
 
-# list-view
+# Examples
+## list-view
 Very simple example showing how to populate a 1d list-view using a model.
 
 ![list-view/list-view.png](list-view/list-view.png)
 
-# 2d-list-view
+## 2d-list-view
 Slightly more complex example showing how to implement a basic app that uses threads and signals to perform a long blocking calculation without blocking the UI.
 Also shows an example of a 2d list view where each row item contains sub items.
 
 ![2d-list-view/2d-list-view.png](2d-list-view/2d-list-view.png)
 
-# publisher-app
+## publisher-app
 Boiler-plate code that shows how you could integrate drag & drop and some parsing logic in order to fill a list view.
 This could be for example used an app for publishing frames
 
