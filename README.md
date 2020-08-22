@@ -46,6 +46,26 @@ Also shows an example of a 2d list view where each row item contains sub items.
 
 ## publisher-app
 Boiler-plate code that shows how you could integrate drag & drop and some parsing logic in order to fill a list view.
-This could be for example used an app for publishing frames
+This could be for example used as the start of an app for publishing frames
 
 ![publisher-app/publisher-app.png](publisher-app/publisher-app.png)
+
+
+# How to contribute
+
+As always, PRs are welcome!
+There are different types of contributions that you could make.
+For now, I think that those would be nice:
+
+## Readme & docs
+- Improve the wiki! (which is empty, at the moment)
+- Improve the readme
+- Add relevant links where people can learn more about PySide2 + QML
+- Start an issue to discuss about something relevant to everybody (IE: how the heck can I use this workflow in Nuke?)
+
+## Code
+- Improving the existing examples to make it easier to follow through
+- Add more generic examples to showcase different usage scenarios
+- Check python3 compatibility
+- Check on all OS (I can only test on macOS and Centos 7.7!)
+- Write tests
