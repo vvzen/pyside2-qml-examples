@@ -33,7 +33,7 @@ In the meantime, nothing prevents you from doing standalone apps in QML, as long
 4. It's still not a mature framework (but he's a bright kid)
 
 # list-view
-Very simple example showing an example of how to populate a 1d list-view using a model.
+Very simple example showing how to populate a 1d list-view using a model.
 
 ![list-view/list-view.png](list-view/list-view.png)
 
