@@ -9,12 +9,14 @@ from PySide2 import QtCore as qtc
 from PySide2 import QtGui as qtg
 from PySide2 import QtWidgets as qtw
 from PySide2 import QtQml as qml
-import clique
+
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Some example regex used to filter the files
+ACCEPTED_EXTENSIONS_REGEX = re.compile(r'(\w+)\.(\w+)\.(exr|tiff|png|dpx)')
+RENDER_LAYER_REGEX = re.compile(r'\w+_\w+_v\d{3}')
 
 pp = pprint.PrettyPrinter(indent=4)
-
-ACCEPTED_EXTENSIONS_REGEX = re.compile(r'(\w+)\.(\w+)\.(exr|tiff|png|dpx)')
-RENDER_LAYER_REGEX = re.compile(r'\w+_\w+_\d{3}')
 
 
 def fit_range(x, inmin, inmax, outmin, outmax):
@@ -29,7 +31,7 @@ def fit_range(x, inmin, inmax, outmin, outmax):
     Returns:
         int or float: the computed value
     """
-    return (x - inmin) * (outmax - outmin) / (inmax - inmin) + outmin
+    return (x-inmin) * (outmax-outmin) / (inmax-inmin) + outmin
 
 
 class PublishComponentsSignals(qtc.QObject):
@@ -112,7 +114,7 @@ class Backend(qtc.QObject):
                 if RENDER_LAYER_REGEX.match(dir_name):
                     current_asset = dir_name
 
-                # print 'current_asset: {}'.format(current_asset)
+                print 'current_asset: {}'.format(current_asset)
                 if current_asset not in render_layers and current_asset is not None:
                     render_layers[current_asset] = {}
                     render_layers[current_asset]['assetName'] = current_asset
@@ -124,24 +126,24 @@ class Backend(qtc.QObject):
                            filenames))
 
                 if frames:
-                    first_frame = re.findall(r'\d{4}',
+                    first_frame_num = re.findall(r'\d+',
                                              os.path.basename(frames[0]))[0]
-                    end_frame = re.findall(r'\d{4}',
+                    end_frame_num = re.findall(r'\d+',
                                            os.path.basename(frames[-1]))[0]
 
                     pass_name = os.path.basename(root)
 
+                    frame_name = frames[0].split('.')[0]
+                    frame_ext = frames[0].split('.')[-1]
+                    print 'frame name: %s' % frame_name
+                    padding = '#' * len(first_frame_num.split('.')[-1])
+
                     render_layers[current_asset]['assetComponents'].append({
-                        'passName':
-                        pass_name,
-                        'startFrame':
-                        first_frame,
-                        'endFrame':
-                        end_frame,
-                        'path':
-                        os.path.dirname(os.path.join(root, frames[0])),
-                        'passIsChecked':
-                        True
+                        'passName': pass_name,
+                        'startFrame': first_frame_num,
+                        'endFrame': end_frame_num,
+                        'path': '%s.%s.%s' % (frame_name, padding, frame_ext),
+                        'passIsChecked': True
                     })
 
         # pp.pprint(render_layers)
@@ -165,7 +167,7 @@ def main():
     backend = Backend()
     engine.rootContext().setContextProperty('backend', backend)
 
-    engine.load(qtc.QUrl('main.qml'))
+    engine.load(qtc.QUrl(os.path.join(CURRENT_DIR, 'main.qml')))
 
     if not engine.rootObjects:
         sys.exit(-1)

@@ -17,7 +17,7 @@ ApplicationWindow {
     minimumHeight: 430
     maximumHeight: 800
 
-    title: 'FBF Publish'
+    title: 'Publish Application'
     property string appVersion: 'v1.0.0'
     property int marginSize: 16
 
@@ -97,19 +97,19 @@ ApplicationWindow {
             height: 80
 
             Text {
-                id: textFbfPublishText
+                id: textAppPublishText
                 anchors.left: header.left
                 anchors.top: header.top
                 anchors.leftMargin: 16
                 anchors.topMargin: 16
-                text: '<b>' + 'FBF Publish' + '</b>'
+                text: '<b>' + 'MyCompany Publisher' + '</b>'
                 font.pointSize: 18
             }
 
             Text {
                 id: versionText
                 anchors.left: header.left
-                anchors.top: textFbfPublishText.bottom
+                anchors.top: textAppPublishText.bottom
                 anchors.leftMargin: 16
                 text: appVersion
                 font.pointSize: 14
@@ -205,6 +205,10 @@ ApplicationWindow {
                         }
 
                         Label {
+                            text: '-'
+                        }
+
+                        Label {
                             text: endFrame
                         }
 
@@ -273,7 +277,7 @@ ApplicationWindow {
                 width: marginSize
             }
 
-            FBFButton {
+            MyCompanyButton {
                 id: publishButton
                 text: 'Publish'
                 onClicked: {
