@@ -6,6 +6,14 @@ I think QML is a great idea that clearly separates logic from presentation, so h
 I've read online about QML from people in VFX and there is a certain sentiment that it's only for creating fancy "mobile-like" experiences.
 In my humble opinion, they aren't getting the big picture.
 
+## FAQs
+
+### How to quickly preview some qml
+
+```bash
+$ qmlscene main.qml
+```
+
 ### Addenda
 #### Why I think QML can be good idea..
 

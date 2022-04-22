@@ -11,7 +11,7 @@ CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 class MyListModel(qtc.QAbstractListModel):
     # Our custom roles
     NameRole = qtc.Qt.UserRole + 1000
-    CheckedRole = qtc.Qt.UserRole + 1001
+    CheckedRole = qtc.Qt.UserRole + 1002
 
     def __init__(self, parent=None):
         super(MyListModel, self).__init__(parent)
