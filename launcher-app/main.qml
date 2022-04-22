@@ -49,6 +49,7 @@ ApplicationWindow {
             source: "mystudiologo.png"
         }
 
+        // Show
         ContextDropDown {
             Layout.alignment: Qt.AlignCenter
             id: showContext
@@ -56,6 +57,10 @@ ApplicationWindow {
             onElementChosen: {
                 currentShow = currentElementName
                 console.log("Current Show:", currentShow)
+                let sequences = backend.get_sequences_for_show(currentShow)
+                sequenceContext.clear()
+                shotContext.clear()
+                sequenceContext.addElements(sequences)
             }
             Component.onCompleted: {
                 let shows = backend.get_shows()
@@ -63,23 +68,28 @@ ApplicationWindow {
             }
         }
 
+        // Sequence
         ContextDropDown {
             Layout.alignment: Qt.AlignCenter
             id: sequenceContext
             name: 'Sequence'
             onElementChosen: {
-                console.log("Current Sequence:", currentElementName)
-                //backend.sequenceUpdatedSlot(elementName)
+                currentSequence = currentElementName
+                console.log("Current Sequence:", currentSequence)
+                let shots = backend.get_shots_for_sequence(currentShow,
+                                                           currentSequence)
+                shotContext.clear()
+                shotContext.addElements(shots)
             }
         }
 
+        // Shot
         ContextDropDown {
             Layout.alignment: Qt.AlignCenter
             id: shotContext
             name: 'Shot'
             onElementChosen: {
                 console.log("Current Shot:", currentElementName)
-                //backend.shotUpdatedSlot(elementName)
             }
         }
 

@@ -23,18 +23,13 @@ class MyDB(object):
             'sc040': ['sc040_0040', 'sc040_0050'],
         },
         'the_crown_season_5': {
-            'sc050': ['sc050_0010', 'sc050_0010'],
+            'sc050': ['sc050_0010', 'sc050_0020'],
             'sc060': ['sc060_0040', 'sc060_0050'],
         },
         'an_awfully_long_show_name_that_you_should_avoid': {
             'sc090': ['sc090_0010', 'sc090_0020'],
         },
     }
-
-
-
-class CurrentContext(object):
-    pass
 
 
 # This class will be accessible within the QML context
@@ -50,18 +45,17 @@ class Backend(qtc.QObject):
     @qtc.Slot(result='QVariantList')
     def get_shows(self):
         shows = sorted(list(self.db.data.keys()))
-        print(shows)
         return shows
-        #self.showsRetrieved.emit(shows)
 
-    @qtc.Slot(str)
+    @qtc.Slot(str, result='QVariantList')
     def get_sequences_for_show(self, show_name):
-        return self.db.data[show_name].keys()
+        sequences = sorted(list(self.db.data[show_name].keys()))
+        return sequences
 
-    @qtc.Slot(str)
+    @qtc.Slot(str, str, result='QVariantList')
     def get_shots_for_sequence(self, show_name, sequence_name):
-        sequences = self.get_sequences_for_show(show_name)
-        return sequences[sequence_name]
+        shots = self.db.data[show_name][sequence_name]
+        return sorted(list(shots))
 
     # --------------------------------------------------------------------------
     @qtc.Slot(str)

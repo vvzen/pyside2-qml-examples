@@ -15,6 +15,10 @@ RowLayout {
     // See https://doc.qt.io/qt-5/qtqml-syntax-signals.html#adding-signals-to-custom-qml-types
     signal elementChosen(var elementName)
 
+    function clear(){
+        dropdownModel.clear()
+    }
+
     function addElements(elements){
         console.log(elements)
         for (let elementName of elements){
