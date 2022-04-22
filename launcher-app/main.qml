@@ -24,13 +24,11 @@ ApplicationWindow {
         return 16
     }
 
-    function primaryColor(pressed = false){
-        if (pressed){
-            return "#9ED624"
-        }
-        else {
-            return "#ABE827"
-        }
+    function primaryColor(){
+        return "#ABE827"
+    }
+    function primaryColorPressed(){
+        return "#ddd"
     }
 
     ColumnLayout {
@@ -107,7 +105,7 @@ ApplicationWindow {
             background: Rectangle {
                 implicitWidth: 100
                 implicitHeight: 40
-                color: primaryColor(launchButton.down)
+                color: launchButton.down ? primaryColorPressed() : primaryColor()
                 radius: 4
             }
 
