@@ -1,6 +1,8 @@
+from __future__ import print_function
 import os
 import sys
 import time
+import random
 
 from PySide2 import QtCore as qtc
 from PySide2 import QtGui as qtg
@@ -21,25 +23,29 @@ class RunnableExample(qtc.QRunnable):
 
     def run(self):
 
-        print 'started long thread calculation..'
+        print('started long thread calculation..')
+        time.sleep(1)
 
-        time.sleep(2)
+        # This is the moment where we might interrogate our backend
+        item_name = "sc010_{r}".format(r=str(random.randint(0, 100)).zfill(4))
 
         data_retrieved = [{
-            'itemName':
-            'asset_010',
-            'itemIsChecked':
-            True,
-            'itemModel': [{
+            'itemName': item_name,
+            'itemIsChecked': True,
+            'itemModel': [
+            {
+                'passName': 'beauty',
+                'path': '/mnt/projects/{name}/rgba.%04d.exr'.format(name=item_name)
+            },
+            {
                 'passName': 'crypto',
-                'path': '/mnt/projects'
-            }, {
+                'path': '/mnt/projects/{name}/crypto.%04d.exr'.format(name=item_name)
+            },
+            {
                 'passName': 'position',
-                'path': '/mnt/projects'
+                'path': '/mnt/projects/{name}/position.%04d.exr'.format(name=item_name)
             }]
         }]
-
-        print 'emitting completed signal'
 
         self.signals.completed.emit(data_retrieved)
 
@@ -51,16 +57,11 @@ class Backend(qtc.QObject):
     def __init__(self):
         super(Backend, self).__init__()
 
-    # # Register the model as a property that notifies a signal when changes
-    # @qtc.Property('QVariant', constant=False, notify=modelChanged)
-    # def model(self):
-    #     return self._model
-
     # This slot will be called from QML
     @qtc.Slot()
     def retrieve_data(self):
 
-        print 'This is a long function that will spawn a separate thread'
+        print('This is a long function that will spawn a separate thread')
 
         separate_thread = RunnableExample()
 
@@ -69,8 +70,8 @@ class Backend(qtc.QObject):
         separate_thread.signals.completed.connect(self.on_thread_completed)
 
     def on_thread_completed(self, data):
-        print 'thread has finished'
-        print data
+        print('thread has finished')
+        print(data)
         self.dataRetrieved.emit(data)
 
 
@@ -83,6 +84,7 @@ def main():
     backend = Backend()
     engine.rootContext().setContextProperty('backend', backend)
 
+    # Load the target .qml file
     engine.load(qtc.QUrl.fromLocalFile(os.path.join(CURRENT_DIR, 'main.qml')))
 
     if not engine.rootObjects():
