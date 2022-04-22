@@ -20,7 +20,6 @@ RowLayout {
     }
 
     function addElements(elements){
-        console.log(elements)
         for (let elementName of elements){
             dropdownModel.append({'name': elementName})
         }

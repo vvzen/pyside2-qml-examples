@@ -57,22 +57,6 @@ class Backend(qtc.QObject):
         shots = self.db.data[show_name][sequence_name]
         return sorted(list(shots))
 
-    # --------------------------------------------------------------------------
-    @qtc.Slot(str)
-    def showUpdatedSlot(self, name):
-        print('New show name:', name)
-        return self.db.get_sequences_for_show(name)
-
-    @qtc.Slot(str)
-    def sequenceUpdatedSlot(self, name):
-        print('New sequence name:', name)
-        return self.db.get_shots_for_sequence(name)
-
-    @qtc.Slot(str)
-    def shotUpdatedSlot(self, name):
-        print('New shot name', name)
-
-
 
 def main():
 
