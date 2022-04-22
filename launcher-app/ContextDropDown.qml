@@ -51,7 +51,7 @@ RowLayout {
         id: dropdown
         model: dropdownModel
         background: Rectangle {
-            implicitWidth: 300
+            implicitWidth: root.width * 0.5
             implicitHeight: 40
             color: primaryColor(launchButton.down)
             radius: 4
