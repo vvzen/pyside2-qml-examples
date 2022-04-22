@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import print_function
 import sys
 import os
 import re
@@ -51,7 +52,7 @@ class PublishComponentsThread(qtc.QRunnable):
         published_assets = []
         for i, asset in enumerate(self.assets_data):
             progress = fit_range(i, 0, len(self.assets_data) - 1, 0.05, 1.0)
-            print 'progress: {}'.format(progress)
+            print('progress: ', progress)
             time.sleep(1)
             published_assets.append(asset['assetName'])
             self.signals.progress.emit(progress)
@@ -70,17 +71,17 @@ class Backend(qtc.QObject):
 
     @qtc.Slot(str, 'QVariantList')
     def publish(self, dept, assetsdata):
-        print 'publish()'
-        print 'dept:'
-        print dept
-        print 'data:'
+        print('publish()')
+        print('dept:')
+        print(dept)
+        print('data:')
         pp.pprint(assetsdata)
 
-        print fit_range(5.0, 0.0, 10.0, 0.0, 1.0)
-        print fit_range(1.0, 0.0, 10.0, 0.0, 1.0)
-        print fit_range(9.0, 0.0, 10.0, 0.0, 1.0)
-        print fit_range(100.0, 0.0, 100.0, 0.0, 1.0)
-        print fit_range(33.0, 0.0, 50.0, 0.0, 1.0)
+        print(fit_range(5.0, 0.0, 10.0, 0.0, 1.0))
+        print(fit_range(1.0, 0.0, 10.0, 0.0, 1.0))
+        print(fit_range(9.0, 0.0, 10.0, 0.0, 1.0))
+        print(fit_range(100.0, 0.0, 100.0, 0.0, 1.0))
+        print(fit_range(33.0, 0.0, 50.0, 0.0, 1.0))
 
         publish_thread = PublishComponentsThread(assetsdata)
         publish_thread.signals.completed.connect(self.on_publish_completed)
@@ -95,13 +96,13 @@ class Backend(qtc.QObject):
 
     @qtc.Slot('QVariant')
     def parseDraggedFiles(self, urllist):
-        print 'parseDraggedFile()'
-        print urllist
+        print('parseDraggedFile()')
+        print(urllist)
 
         render_layers = {}
 
         for url in urllist:
-            print url.path()
+            print(url.path())
 
             current_asset = None
 
@@ -114,7 +115,7 @@ class Backend(qtc.QObject):
                 if RENDER_LAYER_REGEX.match(dir_name):
                     current_asset = dir_name
 
-                print 'current_asset: {}'.format(current_asset)
+                print('current_asset: ', current_asset)
                 if current_asset not in render_layers and current_asset is not None:
                     render_layers[current_asset] = {}
                     render_layers[current_asset]['assetName'] = current_asset
@@ -135,7 +136,7 @@ class Backend(qtc.QObject):
 
                     frame_name = frames[0].split('.')[0]
                     frame_ext = frames[0].split('.')[-1]
-                    print 'frame name: %s' % frame_name
+                    print('frame name: ', frame_name)
                     padding = '#' * len(first_frame_num.split('.')[-1])
 
                     render_layers[current_asset]['assetComponents'].append({

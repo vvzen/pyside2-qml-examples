@@ -1,6 +1,5 @@
 import os
 import sys
-from functools import partial
 
 from PySide2 import QtCore as qtc
 from PySide2 import QtGui as qtg
