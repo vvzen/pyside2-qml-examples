@@ -26,6 +26,9 @@ class MyDB(object):
             'sc050': ['sc050_0010', 'sc050_0010'],
             'sc060': ['sc060_0040', 'sc060_0050'],
         },
+        'an_awfully_long_show_name_that_you_should_avoid': {
+            'sc090': ['sc090_0010', 'sc090_0020'],
+        },
     }
 
 
@@ -46,7 +49,7 @@ class Backend(qtc.QObject):
 
     @qtc.Slot(result='QVariantList')
     def get_shows(self):
-        shows = list(self.db.data.keys())
+        shows = sorted(list(self.db.data.keys()))
         print(shows)
         return shows
         #self.showsRetrieved.emit(shows)

@@ -23,7 +23,6 @@ RowLayout {
     }
 
     Layout.alignment: Qt.AlignTop | Qt.AlignRight
-    Layout.leftMargin: customMargins()
     Layout.topMargin: customMargins() * 0.5
 
     Label {
@@ -52,7 +51,7 @@ RowLayout {
         id: dropdown
         model: dropdownModel
         background: Rectangle {
-            implicitWidth: 100
+            implicitWidth: 300
             implicitHeight: 40
             color: primaryColor(launchButton.down)
             radius: 4
