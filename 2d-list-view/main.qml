@@ -8,6 +8,8 @@ ApplicationWindow {
     visible: true
     width: 640
     height: 480
+    minimumWidth: 400
+    minimumHeight: 200
     title: '2D List View'
 
     signal reDataRetrieved(var data)
@@ -47,6 +49,7 @@ ApplicationWindow {
         anchors.topMargin: 8
         anchors.left: parent.left
         anchors.right: parent.right
+        anchors.rightMargin: 8
         anchors.bottom: clickmeButton.top
         anchors.bottomMargin: 8
         width: 100
@@ -96,7 +99,10 @@ ApplicationWindow {
             }
         }
 
-        ScrollBar.vertical: ScrollBar {}
+        ScrollBar.vertical: ScrollBar {
+            interactive: true
+            policy: ScrollBar.AsNeeded
+        }
     }
 
     Button {
