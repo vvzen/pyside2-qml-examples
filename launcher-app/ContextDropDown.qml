@@ -36,6 +36,7 @@ RowLayout {
     }
 
     // Data model of the ComboBox
+    // See https://doc.qt.io/qt-5/qml-qtqml-models-listmodel.html
     ListModel {
         id: dropdownModel
     }
@@ -44,7 +45,6 @@ RowLayout {
     Component {
         id: dropdownDelegate
         ItemDelegate {
-            width: 300
             text: name
         }
     }
@@ -53,7 +53,7 @@ RowLayout {
         id: dropdown
         model: dropdownModel
         background: Rectangle {
-            implicitWidth: root.width * 0.5
+            implicitWidth: root.width - logoLabel.width - (customMargins() * 4)
             implicitHeight: 40
             color: primaryColor(launchButton.down)
             radius: 4

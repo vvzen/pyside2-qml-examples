@@ -3,22 +3,24 @@ import QtQuick.Window 2.2
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.4
 
-// For dealing with ListModels, see https://doc.qt.io/qt-5/qml-qtqml-models-listmodel.html
 
 ApplicationWindow {
     id: root
     visible: true
     width: 440
-    height: 330
+    height: 460
     color: "#222"
     minimumWidth: 400
-    minimumHeight: 330
-    maximumHeight: 330
+    minimumHeight: 460
+    maximumHeight: 460
     title: 'Launcher App'
 
+    // Custom properties that we want to keep track of at the application level
     property string currentShow
     property string currentSequence
     property string currentShot
+    property string currentDCC
+    property string currentDCCVersion
 
     function customMargins(){
         return 16
@@ -27,6 +29,7 @@ ApplicationWindow {
     function primaryColor(){
         return "#ABE827"
     }
+
     function primaryColorPressed(){
         return "#ddd"
     }
@@ -87,15 +90,42 @@ ApplicationWindow {
             id: shotContext
             name: 'Shot'
             onElementChosen: {
-                console.log("Current Shot:", currentElementName)
+                currentShot = currentElementName
+                console.log("Current Shot:", currentShot)
+            }
+        }
+
+        // DCC
+        ContextDropDown {
+            Layout.alignment: Qt.AlignCenter
+            id: dccContext
+            name: 'DCC'
+            onElementChosen: {
+                currentDCC = currentElementName
+                console.log("Current DCC", currentDCC)
+                let versions = backend.get_dcc_versions(currentDCC)
+                dccVersion.clear()
+                dccVersion.addElements(versions)
+            }
+            Component.onCompleted: {
+                let dccs = backend.get_dccs()
+                this.addElements(dccs)
+            }
+        }
+
+        // DCC version
+        ContextDropDown {
+            Layout.alignment: Qt.AlignCenter
+            id: dccVersion
+            name: 'DCC Version'
+            onElementChosen: {
+                currentDCCVersion = currentElementName
             }
         }
 
         // Filler
         Item {
-            // spacer item
-            Layout.fillWidth: true
-            Layout.fillHeight: true
+            height: customMargins()
         }
 
         Button {
@@ -110,7 +140,14 @@ ApplicationWindow {
             }
 
             onClicked: {
-                console.log('clicked')
+                let context = {
+                    show: currentShow,
+                    sequence: currentSequence,
+                    shot: currentShot,
+                    dcc: currentDCC,
+                    dcc_version: currentDCCVersion
+                }
+                backend.launch(context)
             }
         }
     }
