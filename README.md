@@ -49,7 +49,7 @@ $ qmlscene main.qml
 
 ### Ok, you convinced me. Where can I learn QtQml?
 
-- The official Qt website is a greate reference: https://doc.qt.io/qt-5/qmlapplications.html
+- The official Qt website is a great reference: https://doc.qt.io/qt-5/qmlapplications.html
 - Youtube series by KDAB: https://www.youtube.com/watch?v=JxyTkXLbcV4
 - Udemy course for beginners: https://www.udemy.com/course/qt_quick_qml_tutorial_for_beginners/
 
