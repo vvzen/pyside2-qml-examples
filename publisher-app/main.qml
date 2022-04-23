@@ -11,9 +11,6 @@ ApplicationWindow {
 
     width: 900
     minimumWidth: 700
-    //maximumWidth: assetsColumnLayout.implicitWidth
-
-    //height: 300
     minimumHeight: 430
     maximumHeight: 800
 
@@ -41,7 +38,7 @@ ApplicationWindow {
         console.log('publish completed!')
         publishProgressBar.value = 0.0;
         publishProgressBar.visible = false;
-        publishDialog.text = `Asset pubblicati: ${assetsList.join(', ')}`
+        publishDialog.text = `Published assets: ${assetsList.join(', ')}`
         publishDialog.open()
     }
 
@@ -63,11 +60,12 @@ ApplicationWindow {
         id: publishDialog
         visible: false
         icon: StandardIcon.Information
-        title: 'Pubblicazione completata!'
+        title: 'Publishing complete!'
         modality: Qt.WindowMaximized
         onAccepted: {}
     }
 
+    // Area where files can be drag 'n' dropped
     DropArea {
         width: root.width
         height: root.height
@@ -80,6 +78,7 @@ ApplicationWindow {
             }
             publishProgressBar.visible = false;
             publishProgressBar.value = 0.0;
+            startupText.text = ''
         }
     }
 
@@ -87,7 +86,6 @@ ApplicationWindow {
 
         id: mainLayout
         visible: true
-        // Makes the layout fill its parent
         anchors.fill: parent
 
         Rectangle {
@@ -123,6 +121,17 @@ ApplicationWindow {
                 anchors.topMargin: 16
                 model: ['Lighting', 'Compositing']
             }
+
+            Text {
+                id: startupText
+                width: root.width
+                height: root.height
+                anchors.top: textAppPublishText.bottom
+                anchors.topMargin: 32
+                anchors.left: textAppPublishText.left
+                anchors.leftMargin: 16
+                text: "<i>To start, drag a frame sequence (eg: the one in 'example-data')...</i>"
+            }
         }
 
         ListView {
@@ -141,6 +150,8 @@ ApplicationWindow {
             model: ListModel {
                 id: assetModel
             }
+
+            // How do we want to render our listview
             delegate: ColumnLayout {
 
                 width: root.width

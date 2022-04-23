@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
-import sys
 import os
 import re
-import pprint
+import sys
+import math
 import time
+import pprint
 
 from PySide2 import QtCore as qtc
 from PySide2 import QtGui as qtg
-from PySide2 import QtWidgets as qtw
 from PySide2 import QtQml as qml
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -32,6 +32,9 @@ def fit_range(x, inmin, inmax, outmin, outmax):
     Returns:
         int or float: the computed value
     """
+    # Avoid division by 0
+    if math.floor((inmax-inmin) + outmin) == 0.0:
+        return 0.0
     return (x-inmin) * (outmax-outmin) / (inmax-inmin) + outmin
 
 
@@ -51,11 +54,11 @@ class PublishComponentsThread(qtc.QRunnable):
     def run(self):
         published_assets = []
         for i, asset in enumerate(self.assets_data):
-            progress = fit_range(i, 0, len(self.assets_data) - 1, 0.05, 1.0)
+            progress = fit_range(i, 0.0, float(len(self.assets_data) - 1), 0.15, 1.0)
+            self.signals.progress.emit(progress)
             print('progress: ', progress)
             time.sleep(1)
             published_assets.append(asset['assetName'])
-            self.signals.progress.emit(progress)
 
         self.signals.completed.emit(published_assets)
 
@@ -94,6 +97,7 @@ class Backend(qtc.QObject):
     def on_publish_completed(self, assets):
         self.publishCompleted.emit(assets)
 
+    # Use whatever business logic you want to process the list of paths
     @qtc.Slot('QVariant')
     def parseDraggedFiles(self, urllist):
         print('parseDraggedFile()')
@@ -147,14 +151,11 @@ class Backend(qtc.QObject):
                         'passIsChecked': True
                     })
 
-        # pp.pprint(render_layers)
-
         returned_layers = []
         for asset_name, asset_dict in render_layers.items():
             returned_layers.append(asset_dict)
 
-        # pp.pprint(returned_layers)
-
+        # Emit a signal to communicate with the frontend
         self.dataRetrieved.emit(
             sorted(returned_layers, key=lambda e: e['assetName']))
 
