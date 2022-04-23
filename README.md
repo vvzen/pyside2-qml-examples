@@ -23,9 +23,9 @@ They should also work under `python2.7`, but I haven't tested that
 - Yes, It's still a little bit of a PITA to use QML inside Nuke/Maya/Houdini, but things are slowly changing.
 In the meantime, nothing prevents you from doing standalone apps in QML, as long as you've got ways to properly package/source PySide2 (rez, conda, pip, tcl-modules, etc..)
 
-- If you're crazy enough and you realize in the mid of a project that you need more performance, you could potentially rewrite the backend in C++ and leave the frontend almost untouched
+- If you're crazy enough and you realize in the mid of a project that you need more performance for the backend, you could potentially rewrite it in C++ and leave the frontend almost untouched
 
-- Great performance thanks to the new QtQuick Scene Graph which greatly reduces draw calls (https://doc.qt.io/qt-5/qtquick-visualcanvas-scenegraph.html)
+- Great UI performance thanks to the new QtQuick Scene Graph which greatly reduces draw calls (https://doc.qt.io/qt-5/qtquick-visualcanvas-scenegraph.html)
 
 - It finally offers TreeViews and TreeModels!
 
