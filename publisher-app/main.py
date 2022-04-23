@@ -150,7 +150,7 @@ class Backend(qtc.QObject):
         # pp.pprint(render_layers)
 
         returned_layers = []
-        for asset_name, asset_dict in render_layers.iteritems():
+        for asset_name, asset_dict in render_layers.items():
             returned_layers.append(asset_dict)
 
         # pp.pprint(returned_layers)
