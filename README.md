@@ -25,7 +25,7 @@ In the meantime, nothing prevents you from doing standalone apps in QML, as long
 
 - If you're crazy enough and you realize in the mid of a project that you need more performance, you could potentially rewrite the backend in C++ and leave the frontend almost untouched
 
-- Great performance thanks to the new QtQuick Scene Graph implementation (https://doc.qt.io/qt-5/qtquick-visualcanvas-scenegraph.html)
+- Great performance thanks to the new QtQuick Scene Graph which greatly reduces draw calls (https://doc.qt.io/qt-5/qtquick-visualcanvas-scenegraph.html)
 
 - It finally offers TreeViews and TreeModels!
 
