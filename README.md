@@ -48,7 +48,7 @@ This is really useful for prototyping a UI without wanting to write a `main.py` 
 $ qmlscene main.qml
 ```
 
-### Ok, you convinced me. Where can I learn QtQML?
+### Ok, you convinced me. Where can I learn QtQml?
 
 - The official Qt website is a greate reference: https://doc.qt.io/qt-5/qmlapplications.html
 - Youtube series by KDAB: https://www.youtube.com/watch?v=JxyTkXLbcV4
