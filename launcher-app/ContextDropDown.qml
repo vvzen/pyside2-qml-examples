@@ -6,7 +6,6 @@ import QtQuick.Layouts 1.4
 RowLayout {
     id: contextDropdown
     visible: true
-    width: parent.width
 
     // Custom properties
     property string name

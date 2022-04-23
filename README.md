@@ -6,10 +6,14 @@ I think QML is a great idea that clearly separates logic from presentation, so h
 I've read online about QML from people in VFX and there is a certain sentiment that it's only for creating fancy "mobile-like" experiences.
 In my humble opinion, they aren't getting the big picture.
 
+The following examples have been tested under `python3.7` and `pyside2=5.13.2`.
+They should also work under `python2.7`
+
 ## FAQs
 
 ### How to quickly preview some qml
 
+This is really useful for prototyping a UI without wanting to write a `main.py` at all.
 ```bash
 $ qmlscene main.qml
 ```
@@ -57,6 +61,11 @@ Boiler-plate code that shows how you could integrate drag & drop and some parsin
 This could be for example used as the start of an app for publishing frames
 
 ![publisher-app/publisher-app.png](publisher-app/publisher-app.png)
+
+## launcher-app
+An example of a application launcher where updating a dropdown causes the update of the others. Uses a reusable `ContextDropDown` qml component that works with a standard `ListModel` but has a customized delegate to add whatever pizzazz we want to add to render it.
+
+![launcher-app/launcher-app.png](launcher-app/launcher-app.png)
 
 
 # How to contribute
