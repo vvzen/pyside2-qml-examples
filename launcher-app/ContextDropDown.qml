@@ -44,11 +44,14 @@ RowLayout {
     // Dictates how each element in the ComboBox will render
     Component {
         id: dropdownDelegate
+        // https://doc.qt.io/qt-5/qml-qtquick-controls2-itemdelegate.html
         ItemDelegate {
             text: name
         }
     }
 
+    // The dropdown menu
+    // https://doc.qt.io/qt-5/qml-qtquick-controls2-combobox.html
     ComboBox {
         id: dropdown
         model: dropdownModel

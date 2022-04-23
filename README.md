@@ -25,6 +25,8 @@ In the meantime, nothing prevents you from doing standalone apps in QML, as long
 
 - If you're crazy enough and you realize in the mid of a project that you need more performance, you could potentially rewrite the backend in C++ and leave the frontend almost untouched
 
+- Great performance thanks to the new QtQuick Scene Graph implementation (https://doc.qt.io/qt-5/qtquick-visualcanvas-scenegraph.html)
+
 - It finally offers TreeViews and TreeModels!
 
 #### ..and why it's still challenging
@@ -35,7 +37,7 @@ In the meantime, nothing prevents you from doing standalone apps in QML, as long
 
 - You might find it harder to tweak some of the UI elements exactly as you'd like to
 
-- As a framework, it's not as old and mature as QtWidgets, so expect things to change or be unsupported
+- As a framework, it's not as old and mature as QtWidgets, so expect things to change or be deprecated between versions
 
 ## FAQs
 
@@ -71,7 +73,7 @@ This could be for example used as the start of an app for publishing frames
 ![publisher-app/publisher-app.png](publisher-app/publisher-app.png)
 
 ## launcher-app
-An example of a application launcher where updating a dropdown causes the update of the others. Uses a reusable `ContextDropDown` qml component that works with a standard `ListModel` but has a customized delegate to add whatever pizzazz we want to add to render it.
+An example of an application launcher where updating a dropdown menu causes the update of the others. Uses a reusable `ContextDropDown` qml component that works with a standard `ListModel` with a custom delegate.
 
 ![launcher-app/launcher-app.png](launcher-app/launcher-app.png)
 
@@ -90,6 +92,6 @@ For now, I think that those would be nice:
 
 ## Code
 - Improving the existing examples to make it easier to follow through
-- Add more generic examples to showcase different usage scenarios
+- Add more generic examples to showcase different usage scenarios (I'd love to see a Text autocompleter implemented in Qml!)
 - Check on all OS (I can only test on macOS and Centos 7.7!)
 - Write tests
