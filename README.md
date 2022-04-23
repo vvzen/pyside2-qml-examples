@@ -83,6 +83,5 @@ For now, I think that those would be nice:
 ## Code
 - Improving the existing examples to make it easier to follow through
 - Add more generic examples to showcase different usage scenarios
-- Check python3 compatibility
 - Check on all OS (I can only test on macOS and Centos 7.7!)
 - Write tests
