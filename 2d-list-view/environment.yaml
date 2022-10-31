@@ -28,7 +28,7 @@ dependencies:
   - nss=3.46=h39b4b1f_0
   - openssl=1.1.1c=h01d97ff_0
   - pip=19.2.2=py27_0
-  - pyside2=5.12.4=py27h9cca949_0
+  - PySide6=5.12.4=py27h9cca949_0
   - python=2.7.15=h8f8e585_6
   - qt=5.12.5=h1b46049_0
   - readline=7.0=h1de35cc_5
