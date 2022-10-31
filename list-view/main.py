@@ -1,9 +1,9 @@
 import os
 import sys
 
-from PySide2 import QtCore as qtc
-from PySide2 import QtGui as qtg
-from PySide2 import QtQml as qml
+from PySide6 import QtCore as qtc
+from PySide6 import QtGui as qtg
+from PySide6 import QtQml as qml
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -82,7 +82,7 @@ def main():
     if not engine.rootObjects():
         return -1
 
-    return app.exec_()
+    return app.exec()
 
 
 if __name__ == '__main__':
